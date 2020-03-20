@@ -37,7 +37,7 @@ const iconv = require('iconv-lite');
 // const url = "https://www.lasertech-services.de/";
 // const url = "https://www.tencom.com/";
 // const url = "https://www.thomasnet.com/contact/";
-// const url = "https://de.tek.com/?utm_source=google&utm_medium=ppc&utm_content=brand&utm_term=tektronix&utm_campaign=tektronix&gclid=Cj0KCQjw09HzBRDrARIsAG60GP8W6T2tHgWxEFKkQ9csvP-CPYwDIlzn6jFYLNYeQnCaqK_GIvHbpnUaAjPcEALw_wcB";
+const url = "https://de.tek.com/?utm_source=google&utm_medium=ppc&utm_content=brand&utm_term=tektronix&utm_campaign=tektronix&gclid=Cj0KCQjw09HzBRDrARIsAG60GP8W6T2tHgWxEFKkQ9csvP-CPYwDIlzn6jFYLNYeQnCaqK_GIvHbpnUaAjPcEALw_wcB";
 // const url = "https://www.ariva.de/impressum";
 // const url = "https://www.onvista.de/impressum";
 // const url = "https://www.boersenverlag.de/impressum/";
@@ -74,36 +74,45 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
-   $('a').each((index, element) => {
-      
-      element.children.forEach((item) => {
+   if (false) {
+      $('a').each((index, element) => {
          
-         if (item != null) {
+         if (element != null) {
             
-            console.log(item.data);
+            // console.log(element.attribs.href);
             
-            //##############################################################################################################
+            // MEINPRAKTIKUM // THOMANN // STERILRAY // TALICO-TECH // LASER-TECH // TENCOM // TEK
+            // found = String(element.attribs.href).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
+            
+            // KONTOR // THOMANN // STERILRAY // TALICO-TECH // LASER-TECH // TENCOM // TEK
+            // found = String(element.attribs.href).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w|:)+/ig);
+            
+            // ALLIANZ
+            // CHECK OB NUR EIN CHILD IM A_TAG IST !!!!  found = String(element.attribs.href).replace("%", " ").match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w|:)+/ig);
             
             if (typeof found !== 'undefined') {
                
                if (found != null) {
                   
-                  found2 = String(found).match(/[\d](\d|\s|[-|–|\/+]+)+/g);
+                  // found2 = String(found).match(/[\d](\d|\s|[-|–|\/+]+)+/g);
                   
-                  if (found2 != null) {
-                     
-                     if (!phones.includes(found2)) {
-                        phones.push("Original : " + item.data);
-                        phones.push("Found : ", found);
-                        phones.push("Found 2 : ", found2);
-                        phones.push("----------------------------");
-                     }
-                  }
+                  // if (found2 != null) {
+                  
+                  // if (!phones.includes(found2)) {
+                  
+                  phones.push("Original : " + element.attribs.href);
+                  phones.push("Found : ", found);
+                  // phones.push("Found 2 : ", found2);
+                  phones.push("----------------------------");
+                  // }
+                  // }
+                  
                }
             }
+            
          }
       });
-   });
+   }
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
@@ -168,13 +177,28 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
+   found = String(html).match();
+   
+   if (found2 != null) {
+      
+      if (!phones.includes(found2)) {
+         
+         phones.push("Original : " + element.attribs.href);
+         phones.push("Found : ", found);
+         phones.push("----------------------------");
+      }
+   }
+
+//██████████████████████████████████████████████████████████████████████████████████████████████████
+   
    phones.forEach((item) => {
       console.log(item)
    });
    
 };
 
-console.log();
+
+console.log("\n", url, "\n");
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
