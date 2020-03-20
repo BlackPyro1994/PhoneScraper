@@ -4,7 +4,7 @@ const iconv = require('iconv-lite');
 
 // const url = process.argv.slice(2)[0];
 
-// const url = "https://www.sipgate.de/impressum";
+const url = "https://www.sipgate.de/impressum";
 // const url = 'https://libphonenumber.appspot.com/phonenumberparser?number=0221+6306+1113&country=DE';
 // const url = 'https://www.meinpraktikum.de/unternehmen/pooliestudios/stellen/praktikant-frontend-entwicklung-mw';
 // const url = 'https://www.vathos-robotics.de/';
@@ -20,7 +20,7 @@ const iconv = require('iconv-lite');
 // const url = "https://excellence.ag/";
 // const url = "https://capricorngroup.net/capricorn/karriere/";
 // const url = "https://www.adenion.de/kontakt";
-const url = "https://www.campusjaeger.de/impressum?rId=D27FJcjWsRz5&utm_campaign=spreading-2020-01&utm_medium=jobboard-jobposting&utm_source=backinjob";
+// const url = "https://www.campusjaeger.de/impressum?rId=D27FJcjWsRz5&utm_campaign=spreading-2020-01&utm_medium=jobboard-jobposting&utm_source=backinjob";
 // const url = "https://www.allianz.de/?AZMEDID=SEM_SE-GG_VT-g_PR-Brand_KA-00.brand.gold_AG-allianz.exact_KW-allianz_MT-e_Anzeige-334946579695_SL-keinSL_EG-c_PS-&ef_id=Cj0KCQjw09HzBRDrARIsAG60GP_OUFthmqE4O8fH3IBTVOtg_8CJ3O0Qm8o1FQKVnkXRxHcBExZzhPQaAkHFEALw_wcB:G:s&s_kwcid=AL!8161!3!334946579695!e!!g!!allianz&gclid=Cj0KCQjw09HzBRDrARIsAG60GP_OUFthmqE4O8fH3IBTVOtg_8CJ3O0Qm8o1FQKVnkXRxHcBExZzhPQaAkHFEALw_wcB"
 // const url = "https://www.coretech.com/contact";
 // const url = "https://www.microfocus.com/en-us/about/meet-micro-focus";
@@ -50,15 +50,7 @@ const url = "https://www.campusjaeger.de/impressum?rId=D27FJcjWsRz5&utm_campaign
 // const url ="https://www.carbonsys.com/contact";
 // const url = "http://www.advancedcarbonsystems.com/contactus.html";
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const {fetch} = require("./phantomjs/index.js");
-
-fetch(url, error => {
-   console.log(error)
-}, html => scrape(null, null, html));
-
+console.log("\n", url, "\n");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,7 +66,7 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
-   if (false) {
+   if (true) {
       $('a').each((index, element) => {
          
          if (element != null) {
@@ -179,7 +171,7 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
-   if (false) {
+   if (true) {
       
       // NODECOM // MICROFOCUS
       found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\\d|\s|\w|:)+</ig);
@@ -214,24 +206,18 @@ scrape = function (error, response, html) {
    
 };
 
-
-console.log("\n", url, "\n");
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
 
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
-
-JSDOM.fromURL(url, {resources: 'usable', runScripts: "dangerously"}).then(dom => {
-   html = dom.serialize();
-   scrape(null, null, html);
-});
+const {fetch} = require("./phantomjs/index.js");
+fetch(url, error => {
+   console.log(error)
+}, html => scrape(null, null, html));
 
 */
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// request({method: "GET", uri: url, gzip: false}, scrape);
+request({method: "GET", uri: url, gzip: false}, scrape);
 // request({method: "GET",uri: url,gzip: true}, scrape);
