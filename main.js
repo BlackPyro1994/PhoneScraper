@@ -18,8 +18,19 @@ const iconv = require('iconv-lite');
 // const url = "https://www.telekom.com/de/telekom/impressum-1812";
 // const url = "https://www.telekom.com/de/kontakt";
 // const url = "https://excellence.ag/";
-const url = "https://capricorngroup.net/capricorn/karriere/";
+// const url = "https://capricorngroup.net/capricorn/karriere/";
+// const url = "https://www.adenion.de/kontakt";
+const url = "https://www.campusjaeger.de/impressum?rId=D27FJcjWsRz5&utm_campaign=spreading-2020-01&utm_medium=jobboard-jobposting&utm_source=backinjob";
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const {fetch} = require("./phantomjs/index.js");
+
+fetch(url, error => {
+   console.log(error)
+}, html => scrape(null, null, html));
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 scrape = function (error, response, html) {
    
@@ -27,7 +38,7 @@ scrape = function (error, response, html) {
    
    const $ = cheerio.load(html);
    
-   console.log(html);
+   // console.log(html);
    
    elements = [];
    phones = [];
@@ -39,30 +50,43 @@ scrape = function (error, response, html) {
       element.children.forEach((item) => {
          
          // console.log(item);
-         console.log(item.data);
          
-         found = null;
-         
-         // NIKON // TELEKOM-IMPRESSUM
-         // found = String(item.data).match(/(?<=telefon|phone|tel：|tel:|tel.)(:)(\d|\s|[–|-|-|\/]?)+/ig);
-         
-         // TECHKING // TELEKOM-KONTAKT
-         // found = String(item.data).match(/(?<=telefon|phone|tel|tel：|tel:|tel.)(\d|\s|[–|-|-|\/]?)+/ig);
-         
-         // HELIOWORKS // TELEKOM-IMPRESSUM
-         // found = String(item.data).match(/(?<=telefon|phone|tel：|tel:|tel.)(:)(\(|\)|\d|\s|[–|-|-|\/]?)+/ig);
-         
-         if (found != null) {
+         if (item != null) {
+   
+            // console.log(item.data);
             
-            found2 = String(found).match(/[\d](\d|\s|[-|–|\/+]+)+/g);
+            // found = null;
             
-            if (found2 != null) {
+            // NIKON // TELEKOM-IMPRESSUM
+            // found = String(item.data).match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\d|\s|[–|-|-|\/]?)+/ig);
+            
+            // TECHKING // TELEKOM-KONTAKT
+            // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)(\d|\s|[–|-|-|\/]?)+/ig);
+            
+            // HELIOWORKS // TELEKOM-IMPRESSUM
+            // found = String(item.data).match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\(|\)|\d|\s|[–|-|-|\/]?)+/ig);
+            
+            // CAPRICORNGROUP
+            // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s)+/ig);
+   
+            // CAMPUSJÄGER
+            // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
+            
+            if (typeof found !== 'undefined') {
                
-               if (!phones.includes(found2)) {
-                  phones.push("Original : " + item.data);
-                  phones.push("Found : ", found);
-                  phones.push("Found 2 : ", found2);
-                  phones.push("----------------------------");
+               if (found != null) {
+                  
+                  found2 = String(found).match(/[\d](\d|\s|[-|–|\/+]+)+/g);
+                  
+                  if (found2 != null) {
+                     
+                     if (!phones.includes(found2)) {
+                        phones.push("Original : " + item.data);
+                        phones.push("Found : ", found);
+                        phones.push("Found 2 : ", found2);
+                        phones.push("----------------------------");
+                     }
+                  }
                }
             }
          }
@@ -79,14 +103,21 @@ scrape = function (error, response, html) {
 
 console.log();
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
-const options =
 
-JSDOM.fromURL(url, {resources: 'usable', runScripts: 'dangerously'}).then(dom => {
+JSDOM.fromURL(url, {resources: 'usable',runScripts: "dangerously"}).then(dom => {
    html = dom.serialize();
    scrape(null, null, html);
 });
+
+*/
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // request({method: "GET", uri: url, gzip: false}, scrape);
 // request({method: "GET",uri: url,gzip: true}, scrape);
