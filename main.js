@@ -5,7 +5,7 @@ const iconv = require('iconv-lite');
 // const url = process.argv.slice(2)[0];
 
 // const url = "https://www.sipgate.de/impressum";
-// const url = 'https://libphonenumber.appspot.com/phonenumberparser?number=0221+6306+1113&country=DE';
+const url = 'https://libphonenumber.appspot.com/phonenumberparser?number=0221+6306+1113&country=DE';
 // const url = 'https://www.meinpraktikum.de/unternehmen/pooliestudios/stellen/praktikant-frontend-entwicklung-mw';
 // const url = 'https://www.vathos-robotics.de/';
 // const url = 'https://helioworks.com/contact-us/';
@@ -37,7 +37,7 @@ const iconv = require('iconv-lite');
 // const url = "https://www.lasertech-services.de/";
 // const url = "https://www.tencom.com/";
 // const url = "https://www.thomasnet.com/contact/";
-const url = "https://de.tek.com/?utm_source=google&utm_medium=ppc&utm_content=brand&utm_term=tektronix&utm_campaign=tektronix&gclid=Cj0KCQjw09HzBRDrARIsAG60GP8W6T2tHgWxEFKkQ9csvP-CPYwDIlzn6jFYLNYeQnCaqK_GIvHbpnUaAjPcEALw_wcB";
+// const url = "https://de.tek.com/?utm_source=google&utm_medium=ppc&utm_content=brand&utm_term=tektronix&utm_campaign=tektronix&gclid=Cj0KCQjw09HzBRDrARIsAG60GP8W6T2tHgWxEFKkQ9csvP-CPYwDIlzn6jFYLNYeQnCaqK_GIvHbpnUaAjPcEALw_wcB";
 // const url = "https://www.ariva.de/impressum";
 // const url = "https://www.onvista.de/impressum";
 // const url = "https://www.boersenverlag.de/impressum/";
@@ -54,11 +54,13 @@ const url = "https://de.tek.com/?utm_source=google&utm_medium=ppc&utm_content=br
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
+
 const {fetch} = require("./phantomjs/index.js");
 
 fetch(url, error => {
    console.log(error)
 }, html => scrape(null, null, html));
+
 */
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +69,7 @@ scrape = function (error, response, html) {
    
    // html = iconv.decode(new Buffer.from(html), "win1251");
    const $ = cheerio.load(html);
+   
    // console.log(html);
    
    elements = [];
@@ -177,13 +180,25 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
-   found = String(html).match();
+   // NODECOM // MICROFOCUS
+   found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\\d|\s|\w|:)+</ig);
+
+   // ARIVA (PART 1) // THOMASNET // MICROFOCUS
+   // found = String(html).trim().match(/>*(phone|Ruf)([(|)]|[+-]|\d|\s|\w|:)+[^<]/ig);
    
-   if (found2 != null) {
+   // ARIVA (PART 2) // THOMASNET (PLUS) // MICROFOCUS
+   // found = String(html).trim().match(/(phone|Ruf|Tel)[.|:]([(|)]|[+-]|\d|\s|:)+[)|\d]/ig);
+   
+   // USHIO MUSS MIT PHANTOM-JS ! // MICROFOCUS
+   // found = String(html).match(/>(phone|Ruf|tel|tel:)([(|)]|[+-]|\d|\s|\w|[:|.])+[^<]/ig);
+   
+   // LIBPHONENUMBER //
+   found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\d|\s|\w|:)+[\d][^<]/ig);
+   
+   if (found != null) {
       
-      if (!phones.includes(found2)) {
+      if (!phones.includes(found)) {
          
-         phones.push("Original : " + element.attribs.href);
          phones.push("Found : ", found);
          phones.push("----------------------------");
       }
