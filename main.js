@@ -74,38 +74,14 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
-   $('p').each((index, element) => {
+   $('a').each((index, element) => {
       
       element.children.forEach((item) => {
          
-         // console.log(item);
-         
          if (item != null) {
-   
-            // console.log(item.data);
             
-            // found = null;
-   
-            //##############################################################################################################
+            console.log(item.data);
             
-            // NIKON // TELEKOM-IMPRESSUM // CISCO // PARAGON-SOFTWARE (MINUS) // LASERTECH (HALF) // BOERSENVERLAG
-            // found = String(item.data).match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\d|\s|[–|-|-|\/]?)+/ig);
-            
-            // TECHKING // TELEKOM-KONTAKT // LASER-SERVICES (MINUS)
-            // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)(\d|\s|[–|-|-|\/]?)+/ig);
-            
-            // HELIOWORKS // TELEKOM-IMPRESSUM // CISCO // PARAGON-SOFTWARE (MINUS) // LASERTECH (HALF) // BOERSENVERLAG
-            // found = String(item.data).match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\(|\)|\d|\s|[–|-|-|\/]?)+/ig);
-            
-            // CAPRICORNGROUP // TECHNIKON // LASER-SERVICES (MINUS)
-            // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s)+/ig);
-   
-            // CAMPUSJÄGER // CISCO // TELEFUNKEN (MINUS) // LASERTECH (MINUS)// LASER-SERVICES (MINUS) // ONVISTA (ALMOST) // BOERSENVERLAG // FINANZNACHRICHEN // ESCOM-ORG (MINUS)
-            // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
-            
-            // ADVANCED-CARBON-SYSTEMS (HALF)
-            // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w*|:)+/ig);
-   
             //##############################################################################################################
             
             if (typeof found !== 'undefined') {
@@ -128,6 +104,67 @@ scrape = function (error, response, html) {
          }
       });
    });
+
+//██████████████████████████████████████████████████████████████████████████████████████████████████
+   
+   if (false) {
+      
+      $('p').each((index, element) => {
+         
+         element.children.forEach((item) => {
+            
+            // console.log(item);
+            
+            if (item != null) {
+               
+               // console.log(item.data);
+               
+               // found = null;
+               
+               //##############################################################################################################
+               
+               // NIKON // TELEKOM-IMPRESSUM // CISCO // PARAGON-SOFTWARE (MINUS) // LASERTECH (HALF) // BOERSENVERLAG
+               // found = String(item.data).match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\d|\s|[–|-|-|\/]?)+/ig);
+               
+               // TECHKING // TELEKOM-KONTAKT // LASER-SERVICES (MINUS)
+               // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)(\d|\s|[–|-|-|\/]?)+/ig);
+               
+               // HELIOWORKS // TELEKOM-IMPRESSUM // CISCO // PARAGON-SOFTWARE (MINUS) // LASERTECH (HALF) // BOERSENVERLAG
+               // found = String(item.data).match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\(|\)|\d|\s|[–|-|-|\/]?)+/ig);
+               
+               // CAPRICORNGROUP // TECHNIKON // LASER-SERVICES (MINUS)
+               // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s)+/ig);
+               
+               // CAMPUSJÄGER // CISCO // TELEFUNKEN (MINUS) // LASERTECH (MINUS)// LASER-SERVICES (MINUS) // ONVISTA (ALMOST) // BOERSENVERLAG // FINANZNACHRICHEN // ESCOM-ORG (MINUS)
+               // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
+               
+               // ADVANCED-CARBON-SYSTEMS (HALF)
+               // found = String(item.data).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w*|:)+/ig);
+               
+               //##############################################################################################################
+               
+               if (typeof found !== 'undefined') {
+                  
+                  if (found != null) {
+                     
+                     found2 = String(found).match(/[\d](\d|\s|[-|–|\/+]+)+/g);
+                     
+                     if (found2 != null) {
+                        
+                        if (!phones.includes(found2)) {
+                           phones.push("Original : " + item.data);
+                           phones.push("Found : ", found);
+                           phones.push("Found 2 : ", found2);
+                           phones.push("----------------------------");
+                        }
+                     }
+                  }
+               }
+            }
+         });
+      });
+      
+   }
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
    
