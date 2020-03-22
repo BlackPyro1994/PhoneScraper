@@ -4,7 +4,7 @@ const iconv = require('iconv-lite');
 
 // const url = process.argv.slice(2)[0];
 
-// ###########################################################################################################################
+//████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 //  (A)
 
@@ -13,16 +13,12 @@ const iconv = require('iconv-lite');
 // const url = "https://sterilray.com/";
 // const url = "http://talicotech.com/";
 // const url = "https://www.laser-tech.de/";
-
-// #############################  const url = "https://www.tencom.com/";
-
+////////////////////////////    const url = "https://www.tencom.com/";
 // const url = "https://de.tek.com/?utm_source=google&utm_medium=ppc&utm_content=brand&utm_term=tektronix&utm_campaign=tektronix&gclid=Cj0KCQjw09HzBRDrARIsAG60GP8W6T2tHgWxEFKkQ9csvP-CPYwDIlzn6jFYLNYeQnCaqK_GIvHbpnUaAjPcEALw_wcB";
-// ----------------------------------------------------------------------------------------------
 // const url = "https://www.kontor.com/";
-//----------------------------------------------------------------------------------------------
 // const url = "https://www.allianz.de/?AZMEDID=SEM_SE-GG_VT-g_PR-Brand_KA-00.brand.gold_AG-allianz.exact_KW-allianz_MT-e_Anzeige-334946579695_SL-keinSL_EG-c_PS-&ef_id=Cj0KCQjw09HzBRDrARIsAG60GP_OUFthmqE4O8fH3IBTVOtg_8CJ3O0Qm8o1FQKVnkXRxHcBExZzhPQaAkHFEALw_wcB:G:s&s_kwcid=AL!8161!3!334946579695!e!!g!!allianz&gclid=Cj0KCQjw09HzBRDrARIsAG60GP_OUFthmqE4O8fH3IBTVOtg_8CJ3O0Qm8o1FQKVnkXRxHcBExZzhPQaAkHFEALw_wcB"
 
-// ###########################################################################################################################
+//████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 //  (P)
 
@@ -46,25 +42,21 @@ const iconv = require('iconv-lite');
 // const url = "https://www.escom.org/contact.html";
 // const url = "http://www.advancedcarbonsystems.com/contactus.html";
 
-// ###########################################################################################################################
+//████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 //  (RAW)
 
 // const url = "http://nodecom.com/contact.html";
 // const url = "https://www.microfocus.com/en-us/about/meet-micro-focus";
-// ----------------------------------------------------------------------------------------------
-// const url = "https://www.ariva.de/impressum";
-// ----------------------------------------------------------------------------------------------
+///////////////////////// const url = "https://www.ariva.de/impressum";
 // const url = "https://www.thomasnet.com/contact/";
-// const url = "https://www.ariva.de/impressum";
-// ----------------------------------------------------------------------------------------------
-// const url = 'https://libphonenumber.appspot.com/phonenumberparser?number=0221+6306+1113&country=DE';
+///////////////////////// const url = "https://www.ariva.de/impressum";
+///////////////////////// const url = 'https://libphonenumber.appspot.com/phonenumberparser?number=0221+6306+1113&country=DE';
+///////////////////////// const url = "https://www.ushio.com/contact-us/";
 
-// const url = "https://www.ushio.com/contact-us/";
+//████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
-// ###########################################################################################################################
-
-// FEHLEN !!!
+// ( FEHLEN )
 
 // const url = "https://www.sipgate.de/impressum";
 // const url = 'https://www.vathos-robotics.de/';
@@ -77,21 +69,18 @@ const iconv = require('iconv-lite');
 // const url = "https://www.tesla.com/en_EU/roadside-assistance";
 // const url ="https://www.carbonsys.com/contact";
 
+//████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
+
 console.log("\n", url);
 shortend = String(url).replace(/https:\/\/www.|http:\/\/www.|https:\/\/|http:\/\/|/g, '').match(/(\w|[-])+/)[0];
 console.log("\n", shortend, "\n");
-
 var phantom = false;
-
 if (["capricorngroup", "campusjaeger"].includes(shortend)) {
- 
  phantom = true;
- 
 }
-
 console.log("#######################################################################\n");
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 scrape = function (error, response, html) {
 
@@ -101,9 +90,7 @@ scrape = function (error, response, html) {
 // console.log(html);
  
  elements = [];
- 
  data = [];
- 
  phones = [];
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
@@ -157,7 +144,7 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
  
- if (true) {
+ if (false) {
   
   $('p').each((index, element) => {
    
@@ -245,7 +232,7 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
  
- if (false) {
+ if (true) {
 
 // USHIO MUSS MIT PHANTOM-JS !
   
