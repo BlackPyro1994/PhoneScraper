@@ -4,6 +4,9 @@ const iconv = require('iconv-lite');
 
 // const url = process.argv.slice(2)[0];
 
+var phantom = false;
+// var phantom = true;
+
 // ###########################################################################################################################
 
 //  (A)
@@ -29,6 +32,7 @@ const iconv = require('iconv-lite');
 // const url = 'https://www.nikon.de/de_DE/footers/contact_us.page';
 // const url = "https://www.telekom.com/de/telekom/impressum-1812";
 // const url = "https://www.cisco.com/c/de_de/about.html";
+
 // const url = "https://www.paragon-software.com/about/#contact_form";
 // const url = "https://www.lasertech.com/Contact-LTI.aspx";
 // const url = "https://www.boersenverlag.de/impressum/";
@@ -39,10 +43,14 @@ const iconv = require('iconv-lite');
 // ----------------------------------------------------------------------------------------------
 // const url = 'https://helioworks.com/contact-us/';
 // ----------------------------------------------------------------------------------------------
-// PHANTOM  // const url = "https://capricorngroup.net/capricorn/karriere/";
+// PHANTOM
+// const url = "https://capricorngroup.net/capricorn/karriere/";
+// ----------------------------------------------------------------------------------------------
 // const url = "https://technikon.com/contact/";
 // ----------------------------------------------------------------------------------------------
+// PHANTOM
 // const url = "https://www.campusjaeger.de/impressum?rId=D27FJcjWsRz5&utm_campaign=spreading-2020-01&utm_medium=jobboard-jobposting&utm_source=backinjob";
+// ----------------------------------------------------------------------------------------------
 // const url = "https://telefunken.com/de_DE/impressum/";
 // const url = "https://telefunken.com/de_DE/kontakt/";
 // const url = "https://www.onvista.de/impressum";
@@ -83,211 +91,206 @@ const iconv = require('iconv-lite');
 // const url = "https://www.tesla.com/en_EU/roadside-assistance";
 // const url ="https://www.carbonsys.com/contact";
 
-
-console.log("\n", url, "\n");
+console.log("\n", url);
+console.log("\n", String(url).replace(/https:\/\/www.|http:\/\/www.|https:\/\/|http:\/\/|/g, '').match(/(\w|[-])+/)[0], "\n");
 
 console.log("#######################################################################\n");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 scrape = function (error, response, html) {
-    
-    // html = iconv.decode(new Buffer.from(html), "win1251");
-    const $ = cheerio.load(html);
-    
-    // console.log(html);
-    
-    elements = [];
-    
-    data = [];
-    
-    phones = [];
+
+// html = iconv.decode(new Buffer.from(html), "win1251");
+ const $ = cheerio.load(html);
+
+// console.log(html);
+ 
+ elements = [];
+ 
+ data = [];
+ 
+ phones = [];
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
+ 
+ if (false) {
+  $('a').each((index, element) => {
+   
+   if (element != null) {
+
+// console.log(element.attribs.href);
+
+// ALLIANZ CHECK OB NUR EIN CHILD IM A_TAG IST !!!!
+
+// found = String(element.attribs.href).match(/(?<=telefon|fon:|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
+// found = String(element.attribs.href).match(/[^"](?<=telefon|fon:|phone|tel|tel：|tel:]|tel)[.|:]([+-]|\d|\s|\w|:)+[^"]/ig);
+// found = String(element.attribs.href).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w|:)+/ig);
+// found = String(element.attribs.href).replace("%", " ").match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w|:)+/ig);
+
+// console.log(element.attribs.href);
     
-    if (false) {
-        $('a').each((index, element) => {
-            
-            if (element != null) {
-                
-                // console.log(element.attribs.href);
-                
-                // ALLIANZ CHECK OB NUR EIN CHILD IM A_TAG IST !!!!
-                
-                // found = String(element.attribs.href).match(/(?<=telefon|fon:|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
-                // found = String(element.attribs.href).match(/[^"](?<=telefon|fon:|phone|tel|tel：|tel:]|tel)[.|:]([+-]|\d|\s|\w|:)+[^"]/ig);
-                // found = String(element.attribs.href).match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w|:)+/ig);
-                // found = String(element.attribs.href).replace("%", " ").match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w|:)+/ig);
-                
-                // console.log(element.attribs.href);
-                
-                found = String(element.attribs.href).match(/(?<=tel:)([+-]|[%]|[\/]|[(|)]|\d|\s|:)+/ig);
-                
-                if (typeof found !== 'undefined') {
-                    
-                    if (found != null) {
-                        
-                        if (found.length == 1) {
-                            
-                            if (!phones.includes(found)[0]) {
-                                
-                                phones.push(found.length + " __ " + found[0]);
-                                
-                            }
-                        } else {
-                            
-                            if (!phones.includes(found)) {
-                                
-                                phones.push(found.length + " __ " + found);
-                                
-                            }
-                            
-                        }
-                        
-                        
-                    }
-                }
-                
-            }
-        });
+    found = String(element.attribs.href).match(/(?<=tel:)([+-]|[%]|[\/]|[(|)]|\d|\s|:)+/ig);
+    
+    if (typeof found !== 'undefined') {
+     
+     if (found != null) {
+      
+      if (found.length == 1) {
+       
+       if (!phones.includes(found)[0]) {
+        
+        phones.push(found.length + " __ " + found[0]);
+        
+       }
+      } else {
+       
+       if (!phones.includes(found)) {
+        
+        phones.push(found.length + " __ " + found);
+        
+       }
+       
+      }
+      
+      
+     }
     }
+    
+   }
+  });
+ }
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
+ 
+ if (true) {
+  
+  $('p').each((index, element) => {
+   
+   element.children.forEach((item) => {
     
-    if (true) {
-        
-        $('p').each((index, element) => {
-            
-            element.children.forEach((item) => {
-                
-                if (typeof (item.data) !== 'undefined') {
-                    
-                    field = String(item.data).trim();
-                    
-                    if (field.length > 1) {
-                        // console.log(field);
-                        data.push(field);
-                    }
-                    
-                    // CAPRICORNGROUP MUSS MIT PHANTOM-JS !!
-                    // CAMPUSJÄGER MUSS MIT PHANTOM-JS !!
-                    
-                    // found = field.match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\d|\s|[–|-|-|\/]?)+/ig);
-                    
-                    // found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)(\d|\s|[–|-|-|\/]?)+/ig);
-                    // found = field.match(/(?<=telefon|fon|phone|tel|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s)+/ig);
-                    
-                    // found = field.match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\(|\)|\d|\s|[–|-|-|\/]?)+/ig);
-                    // found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s)+/ig);
-                    
-                    //------------------------------------------------
-                    
-                    
-                    // found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
-                    // found = field.match(/(?<=telefon:)([–|-]|[\/]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon:|Tel.:)([–|-]|[\/]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon:|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon:|Tel.:|Phone:|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon:|Tel.:|Phone:|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s)+/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s)+/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0]|.)[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0.]|[\xA0.] )[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0.] )[ ]{0,}[(]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+[0-9()]/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+[0-9()]/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Tel：|Phone:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+[0-9()]/ig);
-                    // found = field.match(/(?<=telefon|Tel.:|Tel：|Phone:|Phone Line:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9()]/ig);
-                    found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone Line:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9()]/ig);
-                    
-                    //------------------------------------------------
-                    
-                    // found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w*|:)+/ig);
-                    
-                    //##############################################################################################################
-                    
-                    if (typeof found !== 'undefined') {
-                        
-                        if (found != null) {
-                            
-                            if (found.length == 1) {
-                                
-                                if (!phones.includes(found)[0]) {
-                                    
-                                    phones.push(found[0]);
-                                    
-                                }
-                            } else if (found.length > 1) {
-                                
-                                if (!phones.includes(found)) {
-                                    
-                                    phones.push(found.length + " __ " + found);
-                                    
-                                }
-                                
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    }
+    if (typeof (item.data) !== 'undefined') {
+     
+     field = String(item.data).trim();
+     
+     if (field.length > 1) {
+// console.log(field);
+      data.push(field);
+     }
 
-//██████████████████████████████████████████████████████████████████████████████████████████████████
-    
-    if (false) {
+// CAPRICORNGROUP MUSS MIT PHANTOM-JS !!
+// CAMPUSJÄGER MUSS MIT PHANTOM-JS !!
+
+// found = field.match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\d|\s|[–|-|-|\/]?)+/ig);
+
+// found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)(\d|\s|[–|-|-|\/]?)+/ig);
+// found = field.match(/(?<=telefon|fon|phone|tel|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s)+/ig);
+
+// found = field.match(/(?<=telefon|fon|phone|tel：|tel:|tel.)(:)(\(|\)|\d|\s|[–|-|-|\/]?)+/ig);
+// found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s)+/ig);
+
+//------------------------------------------------
+ 
+     // found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
+     // found = field.match(/(?<=telefon:)([–|-]|[\/]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon:|Tel.:)([–|-]|[\/]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon:|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon:|Tel.:|Phone:|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon:|Tel.:|Phone:|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s)+/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:|[：|:|.])([–|-|+|-]|[\/]|[(|)]|\d|\s)+/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:)([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0]|.)[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0.]|[\xA0.] )[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0.] )[ ]{0,}[(]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Phone:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Tel：|Phone:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|Tel.:|Tel：|Phone:|Phone Line:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone Line:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone:|Phone Line:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone |Phone:|Phone Line:|Tel:|[\xA0.] )[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone |Phone:|Phone Line:|Tel:|[\xA0].)[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9()]/ig);
+     // found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone |Phone:|Phone Line:|Tel:|[\xA0].)[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9)]/ig);
+     // found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone |Phone:|Phone Line:|Tel:|[\xA0.])[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9)]/ig);
+     // found = field.match(/(?<=telefon|telefon:|Tel.:|Tel：|Phone |Phone:|Phone Line:|Tel:|[\xA0])[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9)]/ig);
+     found = field.match(/(?<=telefon|telefon:|Tel|Tel.:|Tel:|Tel：|Phone |Phone:|Phone Line:|[\xA0])[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9)]/ig);
+
+//------------------------------------------------
+
+// found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([(|)]|[+-]|\d|\s|\w*|:)+/ig);
+
+//##############################################################################################################
+     
+     if (typeof found !== 'undefined') {
+      
+      if (found != null) {
+       
+       if (found.length == 1) {
         
-        // USHIO MUSS MIT PHANTOM-JS !
-        
-        found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\\d|\s|\w|:)+</ig);
-        
-        // found = String(html).trim().match(/>*(phone|Ruf)([(|)]|[+-]|\d|\s|\w|:)+[^<]/ig);
-        
-        // found = String(html).trim().match(/(phone|Ruf|Tel)[.|:]([(|)]|[+-]|\d|\s|:)+[)|\d]/ig);
-        
-        // found = String(html).match(/>(phone|Ruf|tel|tel:)([(|)]|[+-]|\d|\s|\w|[:|.])+[^<]/ig);
-        
-        // found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\d|\s|\w|:)+[\d][^<]/ig);
-        
-        if (found != null) {
-            
-            if (!phones.includes(found)) {
-                
-                phones.push("Found : ", found);
-                phones.push("----------------------------");
-            }
+        if (!phones.includes(found)[0]) {
+         
+         phones.push(found[0]);
+         
         }
+       } else if (found.length > 1) {
+        
+        if (!phones.includes(found)) {
+         
+         phones.push(found.length + " __ " + found);
+         
+        }
+        
+       }
+      }
+     }
     }
+   });
+  });
+ }
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
+ 
+ if (false) {
+
+// USHIO MUSS MIT PHANTOM-JS !
+  
+  found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\\d|\s|\w|:)+</ig);
+
+// found = String(html).trim().match(/>*(phone|Ruf)([(|)]|[+-]|\d|\s|\w|:)+[^<]/ig);
+
+// found = String(html).trim().match(/(phone|Ruf|Tel)[.|:]([(|)]|[+-]|\d|\s|:)+[)|\d]/ig);
+
+// found = String(html).match(/>(phone|Ruf|tel|tel:)([(|)]|[+-]|\d|\s|\w|[:|.])+[^<]/ig);
+
+// found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\d|\s|\w|:)+[\d][^<]/ig);
+  
+  if (found != null) {
+   
+   if (!phones.includes(found)) {
     
-    if(phones.length==0){
-        
-        console.log(data);
-        console.log("\n#######################################################################\n");
-    }
-    
-    phones.forEach((item) => {
-        
-        console.log(item)
-    });
-    
+    phones.push("Found : ", found);
+    phones.push("----------------------------");
+   }
+  }
+ }
+
+//██████████████████████████████████████████████████████████████████████████████████████████████████
+ 
+ if ((phones.length == 0)) {
+  console.log(data);
+  console.log("\n#######################################################################\n");
+ }
+ phones.forEach((item) => {
+  console.log(item)
+ });
 };
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if (false) {
-    
-    const {fetch} = require("./phantomjs/index.js");
-    fetch(url, error => {
-        console.log(error)
-    }, html => scrape(null, null, html));
-    
+if (phantom) {
+ const {fetch} = require("./phantomjs/index.js");
+ fetch(url, error => {
+  console.log(error)
+ }, html => scrape(null, null, html));
 } else {
-    
-    request({method: "GET", uri: url, gzip: false}, scrape);
+ request({method: "GET", uri: url, gzip: false}, scrape);
 // request({method: "GET",uri: url,gzip: true}, scrape);
-
 }
