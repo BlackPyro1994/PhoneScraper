@@ -4,9 +4,6 @@ const iconv = require('iconv-lite');
 
 // const url = process.argv.slice(2)[0];
 
-var phantom = false;
-// var phantom = true;
-
 // ###########################################################################################################################
 
 //  (A)
@@ -32,33 +29,22 @@ var phantom = false;
 // const url = 'https://www.nikon.de/de_DE/footers/contact_us.page';
 // const url = "https://www.telekom.com/de/telekom/impressum-1812";
 // const url = "https://www.cisco.com/c/de_de/about.html";
-
 // const url = "https://www.paragon-software.com/about/#contact_form";
 // const url = "https://www.lasertech.com/Contact-LTI.aspx";
 // const url = "https://www.boersenverlag.de/impressum/";
-// ----------------------------------------------------------------------------------------------
 // const url = 'http://techking.com/#';
 // const url = "https://www.telekom.com/de/kontakt";
 // const url = "https://www.lasertech-services.de/";
-// ----------------------------------------------------------------------------------------------
 // const url = 'https://helioworks.com/contact-us/';
-// ----------------------------------------------------------------------------------------------
-// PHANTOM
 // const url = "https://capricorngroup.net/capricorn/karriere/";
-// ----------------------------------------------------------------------------------------------
 // const url = "https://technikon.com/contact/";
-// ----------------------------------------------------------------------------------------------
-// PHANTOM
 // const url = "https://www.campusjaeger.de/impressum?rId=D27FJcjWsRz5&utm_campaign=spreading-2020-01&utm_medium=jobboard-jobposting&utm_source=backinjob";
-// ----------------------------------------------------------------------------------------------
 // const url = "https://telefunken.com/de_DE/impressum/";
 // const url = "https://telefunken.com/de_DE/kontakt/";
 // const url = "https://www.onvista.de/impressum";
 // const url = "https://www.finanznachrichten.de/service/impressum.htm";
 // const url = "https://www.escom.org/contact.html";
-// ----------------------------------------------------------------------------------------------
 // const url = "http://www.advancedcarbonsystems.com/contactus.html";
-
 
 // ###########################################################################################################################
 
@@ -92,7 +78,16 @@ var phantom = false;
 // const url ="https://www.carbonsys.com/contact";
 
 console.log("\n", url);
-console.log("\n", String(url).replace(/https:\/\/www.|http:\/\/www.|https:\/\/|http:\/\/|/g, '').match(/(\w|[-])+/)[0], "\n");
+shortend = String(url).replace(/https:\/\/www.|http:\/\/www.|https:\/\/|http:\/\/|/g, '').match(/(\w|[-])+/)[0];
+console.log("\n", shortend, "\n");
+
+var phantom = false;
+
+if (["capricorngroup", "campusjaeger"].includes(shortend)) {
+ 
+ phantom = true;
+ 
+}
 
 console.log("#######################################################################\n");
 
@@ -189,7 +184,7 @@ scrape = function (error, response, html) {
 // found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s)+/ig);
 
 //------------------------------------------------
- 
+     
      // found = field.match(/(?<=telefon|fon|phone|tel|tel：|tel:|tel.)([+-]|\d|\s|\w|:)+/ig);
      // found = field.match(/(?<=telefon:)([–|-]|[\/]|\d|\s|[:])+/ig);
      // found = field.match(/(?<=telefon:|Tel.:)([–|-]|[\/]|\d|\s|[:])+/ig);
