@@ -10,10 +10,12 @@ const iconv = require('iconv-lite');
 
 // const url = 'https://www.meinpraktikum.de/unternehmen/pooliestudios/stellen/praktikant-frontend-entwicklung-mw';
 // const url = "https://www.thomann.de/de/index.html?gclid=Cj0KCQjw09HzBRDrARIsAG60GP-0GpdydvL5IcyWhMuHWttjfZ0zkmcu0-sKjRHQTg5d8ECefLq4ukYaAnJbEALw_wcB";
-// const url = "https://sterilray.com/";
+const url = "https://sterilray.com/";
 // const url = "http://talicotech.com/";
 // const url = "https://www.laser-tech.de/";
+
 ////////////////////////////    const url = "https://www.tencom.com/";
+
 // const url = "https://de.tek.com/?utm_source=google&utm_medium=ppc&utm_content=brand&utm_term=tektronix&utm_campaign=tektronix&gclid=Cj0KCQjw09HzBRDrARIsAG60GP8W6T2tHgWxEFKkQ9csvP-CPYwDIlzn6jFYLNYeQnCaqK_GIvHbpnUaAjPcEALw_wcB";
 // const url = "https://www.kontor.com/";
 // const url = "https://www.allianz.de/?AZMEDID=SEM_SE-GG_VT-g_PR-Brand_KA-00.brand.gold_AG-allianz.exact_KW-allianz_MT-e_Anzeige-334946579695_SL-keinSL_EG-c_PS-&ef_id=Cj0KCQjw09HzBRDrARIsAG60GP_OUFthmqE4O8fH3IBTVOtg_8CJ3O0Qm8o1FQKVnkXRxHcBExZzhPQaAkHFEALw_wcB:G:s&s_kwcid=AL!8161!3!334946579695!e!!g!!allianz&gclid=Cj0KCQjw09HzBRDrARIsAG60GP_OUFthmqE4O8fH3IBTVOtg_8CJ3O0Qm8o1FQKVnkXRxHcBExZzhPQaAkHFEALw_wcB"
@@ -48,16 +50,16 @@ const iconv = require('iconv-lite');
 
 // const url = "http://nodecom.com/contact.html";
 // const url = "https://www.microfocus.com/en-us/about/meet-micro-focus";
-///////////////////////// const url = "https://www.ariva.de/impressum";
+// const url = "https://www.ariva.de/impressum";
 // const url = "https://www.thomasnet.com/contact/";
-///////////////////////// const url = "https://www.ariva.de/impressum";
-///////////////////////// const url = 'https://libphonenumber.appspot.com/phonenumberparser?number=0221+6306+1113&country=DE';
-///////////////////////// const url = "https://www.ushio.com/contact-us/";
+
+////////////////////////// const url = 'https://libphonenumber.appspot.com/phonenumberparser?number=0221+6306+1113&country=DE';
+
+// const url = "https://www.ushio.com/contact-us/";
 
 //████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 // ( FEHLEN )
-
 // const url = "https://www.sipgate.de/impressum";
 // const url = 'https://www.vathos-robotics.de/';
 // const url = 'https://mytelco.de/impressum/';
@@ -75,7 +77,7 @@ console.log("\n", url);
 shortend = String(url).replace(/https:\/\/www.|http:\/\/www.|https:\/\/|http:\/\/|/g, '').match(/(\w|[-])+/)[0];
 console.log("\n", shortend, "\n");
 var phantom = false;
-if (["capricorngroup", "campusjaeger"].includes(shortend)) {
+if (["capricorngroup", "campusjaeger", "ushio"].includes(shortend)) {
  phantom = true;
 }
 console.log("#######################################################################\n");
@@ -95,7 +97,8 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
  
- if (false) {
+ if (true) {
+  
   $('a').each((index, element) => {
    
    if (element != null) {
@@ -112,29 +115,28 @@ scrape = function (error, response, html) {
 // console.log(element.attribs.href);
     
     found = String(element.attribs.href).match(/(?<=tel:)([+-]|[%]|[\/]|[(|)]|\d|\s|:)+/ig);
-    
+ 
     if (typeof found !== 'undefined') {
-     
+  
      if (found != null) {
-      
+   
       if (found.length == 1) {
-       
+    
        if (!phones.includes(found)[0]) {
-        
-        phones.push(found.length + " __ " + found[0]);
-        
+     
+        phones.push(found[0]);
+     
        }
-      } else {
-       
-       if (!phones.includes(found)) {
-        
-        phones.push(found.length + " __ " + found);
-        
-       }
-       
+      } else if (found.length > 1) {
+    
+       found.forEach((item) => {
+     
+        if (!phones.includes(item)) {
+         phones.push(item);
+        }
+     
+       });
       }
-      
-      
      }
     }
     
@@ -144,7 +146,7 @@ scrape = function (error, response, html) {
 
 //██████████████████████████████████████████████████████████████████████████████████████████████████
  
- if (false) {
+ if (true) {
   
   $('p').each((index, element) => {
    
@@ -204,24 +206,25 @@ scrape = function (error, response, html) {
 //##############################################################################################################
      
      if (typeof found !== 'undefined') {
-      
+  
       if (found != null) {
-       
+   
        if (found.length == 1) {
-        
+    
         if (!phones.includes(found)[0]) {
-         
+     
          phones.push(found[0]);
-         
+     
         }
        } else if (found.length > 1) {
-        
-        if (!phones.includes(found)) {
-         
-         phones.push(found.length + " __ " + found);
-         
-        }
-        
+    
+        found.forEach((item) => {
+     
+         if (!phones.includes(item)) {
+          phones.push(item);
+         }
+     
+        });
        }
       }
      }
@@ -233,46 +236,72 @@ scrape = function (error, response, html) {
 //██████████████████████████████████████████████████████████████████████████████████████████████████
  
  if (true) {
-
-// USHIO MUSS MIT PHANTOM-JS !
   
-  found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\\d|\s|\w|:)+</ig);
-
-// found = String(html).trim().match(/>*(phone|Ruf)([(|)]|[+-]|\d|\s|\w|:)+[^<]/ig);
-
-// found = String(html).trim().match(/(phone|Ruf|Tel)[.|:]([(|)]|[+-]|\d|\s|:)+[)|\d]/ig);
-
-// found = String(html).match(/>(phone|Ruf|tel|tel:)([(|)]|[+-]|\d|\s|\w|[:|.])+[^<]/ig);
-
-// found = String(html).trim().match(/>(phone|Ruf|tel)([(|)]|[+-]|\d|\s|\w|:)+[\d][^<]/ig);
+  field = String(html).trim();
   
-  if (found != null) {
+  if (field.length > 1) {
+   data.push(field);
+  }
+  
+  // found = field.match(/>(phone|Ruf|tel)([(|)]|[+-]|\\d|\s|\w|:)+</ig);
+  
+  // found = field.match(/>*(phone|Ruf)([(|)]|[+-]|\d|\s|\w|:)+[^<]/ig);
+  // found = field.match(/(phone|Ruf|Tel)[.|:]([(|)]|[+-]|\d|\s|:)+[)|\d]/ig);
+  // found = field.match(/>(phone|Ruf|tel|tel:)([(|)]|[+-]|\d|\s|\w|[:|.])+[^<]/ig);
+  // found = field.match(/>(phone|Ruf|tel)([(|)]|[+-]|\d|\s|\w|:)+[\d][^<]/ig);
+  
+  found = field.match(/(?<=telefon|telefon:|Tel|Tel.:|Tel:|Tel：|Phone |Phone:|Phone Line:|[\xA0])[ |(|+]{0,}[0-9]([–|-]|[\/]|[(|)]|\d|\s|[:|.])+[0-9)]/ig);
+  
+  if (typeof found !== 'undefined') {
    
-   if (!phones.includes(found)) {
+   if (found != null) {
     
-    phones.push("Found : ", found);
-    phones.push("----------------------------");
+    if (found.length == 1) {
+     
+     if (!phones.includes(found)[0]) {
+      
+      phones.push(found[0]);
+      
+     }
+    } else if (found.length > 1) {
+     
+     found.forEach((item) => {
+      
+      if (!phones.includes(item)) {
+       phones.push(item);
+      }
+      
+     });
+    }
    }
   }
  }
-
-//██████████████████████████████████████████████████████████████████████████████████████████████████
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
  
  if ((phones.length == 0)) {
   console.log(data);
   console.log("\n#######################################################################\n");
  }
+ 
  phones.forEach((item) => {
   console.log(item)
  });
+ 
 };
 
+//██████████████████████████████████████████████████████████████████████████████████████████████████
+
 if (phantom) {
+ 
  const {fetch} = require("./phantomjs/index.js");
  fetch(url, error => {
   console.log(error)
  }, html => scrape(null, null, html));
+ 
 } else {
+ 
  request({method: "GET", uri: url, gzip: false}, scrape);
 // request({method: "GET",uri: url,gzip: true}, scrape);
+
 }
